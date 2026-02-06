@@ -4,10 +4,11 @@ from django.core.exceptions import ValidationError
 
 from taxi.models import Driver, Car
 
+
 def validate_license_number(value):
     if len(value) != 8:
         raise ValidationError("Ensure that value is 8 characters.")
-    if not all('A' <= c <= 'Z' for c in value[:3]):
+    if not all("A" <= c <= "Z" for c in value[:3]):
         raise ValidationError("First 3 characters must be uppercase letters.")
     if not value[3:].isdigit():
         raise ValidationError("Last 5 characters must only contain numbers.")
@@ -15,9 +16,7 @@ def validate_license_number(value):
 
 class DriverCreateForm(UserCreationForm):
     license_number = forms.CharField(
-        max_length=255,
-        required=True,
-        validators=[validate_license_number]
+        max_length=255, required=True, validators=[validate_license_number]
     )
 
     class Meta:
@@ -27,9 +26,7 @@ class DriverCreateForm(UserCreationForm):
 
 class DriverLicenseUpdateForm(forms.ModelForm):
     license_number = forms.CharField(
-        max_length=255,
-        required=True,
-        validators=[validate_license_number]
+        max_length=255, required=True, validators=[validate_license_number]
     )
 
     class Meta:
@@ -39,8 +36,7 @@ class DriverLicenseUpdateForm(forms.ModelForm):
 
 class CarCreateForm(forms.ModelForm):
     drivers = forms.ModelMultipleChoiceField(
-        queryset=Driver.objects.all(),
-        widget=forms.CheckboxSelectMultiple
+        queryset=Driver.objects.all(), widget=forms.CheckboxSelectMultiple
     )
 
     class Meta:
